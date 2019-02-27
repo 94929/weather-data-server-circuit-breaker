@@ -1,5 +1,6 @@
 package ic.doc.fe;
 
+import ic.doc.be.WeatherDataCircuitBreaker;
 import ic.doc.web.IndexPage;
 import org.apache.http.client.fluent.Request;
 import org.eclipse.jetty.server.Server;
@@ -39,7 +40,7 @@ public class FrontEndWebServer {
         }
 
         private String retrieveWeatherData() {
-            return fetchDataFrom(WEATHER_URI);
+            return new WeatherDataCircuitBreaker(WEATHER_URI).execute();
         }
 
         private String fetchDataFrom(String newsUri) {
